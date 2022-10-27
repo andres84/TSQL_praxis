@@ -1,4 +1,4 @@
-
+--SUBCONSULTAS COMO EXPRESION
 select * from SalesLT.Product
 
 --mostrar la diferencia entre el producto mas barato frente al mas caro del costo estandar del producto con id 711
@@ -70,4 +70,23 @@ select * from @TablaPruebaEliminar
 delete from SalesLT.Product
 where StandardCost = (
 	select min(StandardCost) from SalesLT.Product
+)
+
+--SUBCONSULTAS CON IN
+select * from SalesLT.Product
+select * from SalesLT.ProductCategory
+
+--conocer los productos que se encuentran en la categoria Brakes
+select p.Name, p.ProductCategoryID, pc.Name from SalesLT.Product p
+inner join SalesLT.ProductCategory pc on pc.ProductCategoryID = p.ProductCategoryID
+where pc.Name in (
+	select pcs.Name from SalesLT.ProductCategory pcs where pcs.Name = 'Brakes'
+)
+
+--mostrar todas las categorias menos Brakes, Mountain Bikes, Chains, Road Bikes
+
+select p.Name, p.ProductCategoryID, pc.Name from SalesLT.Product p
+inner join SalesLT.ProductCategory pc on pc.ProductCategoryID = p.ProductCategoryID
+where pc.Name not in (
+	select pcs.Name from SalesLT.ProductCategory pcs where pcs.Name in ('Brakes', 'Chains', 'Mountain Bikes', 'Road Bikes')
 )
