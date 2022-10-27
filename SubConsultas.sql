@@ -36,7 +36,7 @@ set valor = 2389
 where valor = (select max(valor) from @tablaPrueba)
 select * from @tablaPrueba
 
---prueba en la tabla real
+--ejecucion en la tabla real
 update SalesLT.Product
 set StandardCost = 2389
 where StandardCost = (select MAX(p.StandardCost) from SalesLT.Product p)
@@ -47,3 +47,27 @@ where p.StandardCost = (
 	select max(pro.StandardCost) from SalesLT.Product pro
 )
 
+--eliminar producto con el menor precio
+
+--observamos el producto con el precio mas bajo
+select p.Name, 
+	(select min(pro.StandardCost) from SalesLT.Product pro) as precio_menor 
+from SalesLT.Product p
+
+--prueba con variables
+declare @TablaPruebaEliminar Table(
+	valorEliminar float
+)
+insert into @TablaPruebaEliminar values(0.9422)
+insert into @TablaPruebaEliminar values(0.99)
+select * from @TablaPruebaEliminar
+
+delete from @TablaPruebaEliminar
+where valorEliminar = (select min(valorEliminar) from @TablaPruebaEliminar)
+select * from @TablaPruebaEliminar
+
+-- ejecucion tabla real tener en cuenta la eliminacion en cascada cuando la tabla este relacionada con otras tablas
+delete from SalesLT.Product
+where StandardCost = (
+	select min(StandardCost) from SalesLT.Product
+)
