@@ -1,3 +1,4 @@
+--buscar registros en una sola consulta de dos instancias diferentes
 SELECT [Date]
       ,[Website]
       ,[Product]
