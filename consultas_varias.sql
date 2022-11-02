@@ -97,4 +97,26 @@ select * from SalesLT.Product as p
 where p.standardcost > (select AVG(pr.standardcost) from SalesLT.Product as pr)
 order by p.standardcost desc
 
+--asigna valores aleatorios
+update SalesLT.Customer
+set edad  = ABS(CAST(NEWID() as binary(6)) % 100) + 1
+
+--otro ejemplo
+DECLARE @Upper INT
+DECLARE @Lower INT
+DECLARE @Value INT
+SET @Lower = 0 ---- Minimo
+SET @Upper = 999 ---- Maximo
+SET @Value=ROUND(((@Upper - @Lower -1) * RAND() + @Lower), 0)
+declare @tablaProducto Table(
+
+	producto int
+
+)
+
+insert into @tablaProducto values(@Value)
+insert into @tablaProducto values(@Value)
+insert into @tablaProducto values(@Value)
+
+select * from @tablaProducto
 

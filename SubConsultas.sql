@@ -72,6 +72,34 @@ where StandardCost = (
 	select min(StandardCost) from SalesLT.Product
 )
 
+--subconsultas con insert
+--crearemos una tabla variable para realizar el ejercicio
+select * from SalesLT.Product
+
+declare @TablaTemporal Table(
+	idProducto int,
+	NombreProducto varchar(50),
+	PrecioEstandar float
+)
+
+insert into @TablaTemporal
+	select p.ProductID, p.Name, p.StandardCost from SalesLT.Product p
+
+select * from @TablaTemporal
+
+--otro ejercicio
+declare @TablaTemporal2 Table(
+	idProducto int,
+	NombreProducto varchar(50),
+	PrecioEstandar float
+)
+
+insert into @TablaTemporal2 
+	select p.ProductID, p.Name, p.StandardCost from SalesLT.Product p
+	where p.ProductID = 712
+
+select * from @TablaTemporal2
+
 --SUBCONSULTAS CON IN
 select * from SalesLT.Product
 select * from SalesLT.ProductCategory
